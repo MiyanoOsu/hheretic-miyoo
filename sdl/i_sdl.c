@@ -332,7 +332,7 @@ static int xlatekey (SDL_keysym *key)
 		cb[3] = 0;
 		return KEY_RIGHTBRACKET;
 	}
-	static Uint8 weapon_slot = 1; 
+	static Uint8 weapon_slot = 2; 
 	// change weapon
 	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_LEFT]) {
 		cb[4] = 1;
