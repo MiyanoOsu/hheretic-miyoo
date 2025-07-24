@@ -241,7 +241,7 @@ void I_Update (void)
 void I_InitGraphics(void)
 {
 	char text[20];
-	Uint32 flags = DEFAULT_FLAGS;
+	Uint32 flags = SDL_SWSURFACE;
 
 	if (M_CheckParm("-novideo"))	// if true, stay in text mode for debugging
 	{
@@ -249,7 +249,7 @@ void I_InitGraphics(void)
 		return;
 	}
 
-	if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0) {
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		I_Error("Couldn't init video: %s", SDL_GetError());
 	}
 
