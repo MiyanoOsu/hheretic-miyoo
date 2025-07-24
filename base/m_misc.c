@@ -437,9 +437,9 @@ default_t defaults[] =
 	{ "key_invleft",	&key_invleft,		'[',		0, 254 },
 	{ "key_invright",	&key_invright,		']',		0, 254 },
 	{ "key_useartifact",	&key_useartifact,	KEY_ENTER,	0, 254 },
-	{ "key_fire",		&key_fire,		KEY_RCTRL,	0, 254 },
+	{ "key_fire",		&key_fire,		KEY_RALT,	0, 254 },
 	{ "key_use",		&key_use,		' ',		0, 254 },
-	{ "key_strafe",		&key_strafe,		KEY_RALT,	0, 254 },
+	{ "key_strafe",		&key_strafe,		KEY_RCTRL,	0, 254 },
 	{ "key_speed",		&key_speed,		KEY_RSHIFT,	0, 254 },
 
 	{ "use_mouse",		&usemouse,		1,	0, 1 },

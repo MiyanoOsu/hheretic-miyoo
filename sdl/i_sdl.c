@@ -304,6 +304,92 @@ void I_ShutdownGraphics(void)
 //
 static int xlatekey (SDL_keysym *key)
 {
+	Uint8* keystate = SDL_GetKeyState(NULL);
+	// combo keys
+	static Uint8 cb[10] = {0};
+
+	// open map
+	if(keystate[SDLK_RCTRL]) {
+		cb[1] = 1;
+		return KEY_TAB;
+	}else if (cb[1]==1) {
+		cb[1] = 0;
+		return KEY_TAB;
+	}
+
+	// move selection in inventory
+	if(keystate[SDLK_TAB] && keystate[SDLK_LEFT]) {
+		cb[2] = 1;
+		return KEY_LEFTBRACKET;
+	}else if (cb[2]==1) {
+		cb[2] = 0;
+		return KEY_LEFTBRACKET;
+	}
+	if(keystate[SDLK_TAB] && keystate[SDLK_RIGHT]) {
+		cb[3] = 1;
+		return KEY_RIGHTBRACKET;
+	}else if (cb[3]==1) {
+		cb[3] = 0;
+		return KEY_RIGHTBRACKET;
+	}
+
+	// move left or right while head face other direction
+	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_LEFT]) {
+		cb[4] = 1;
+		return KEY_COMMA;
+	} else if (cb[4]==1) {
+		cb[4] = 0;
+		return KEY_COMMA;
+	}
+	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_RIGHT]) {
+		cb[5] = 1;
+		return KEY_PERIOD;
+	} else if (cb[5]==1) {
+		cb[5] = 0;
+		return KEY_PERIOD;
+	}
+
+	//look up or down
+	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_UP]) {
+		cb[6] = 1;
+		return KEY_PGDN;
+	} else if (cb[6]==1) {
+		cb[6] = 0;
+		return KEY_PGDN;
+	}
+	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_DOWN]) {
+		cb[7] = 1;
+		return KEY_DEL;
+	} else if (cb[7]==1) {
+		cb[7] = 0;
+		return KEY_DEL;
+	}
+
+	// fly up or down
+	if(keystate[SDLK_TAB] && keystate[SDLK_UP]) {
+		cb[8] = 1;
+		return KEY_PGUP;
+	} else if (cb[8]==1) {
+		cb[8] = 0;
+		return KEY_PGUP;
+	}
+	if(keystate[SDLK_TAB] && keystate[SDLK_DOWN]) {
+		cb[9] = 1;
+		return KEY_INS;
+	} else if (cb[9]==1) {
+		cb[9] = 0;
+		return KEY_INS;
+	}
+
+	// unmap TAB
+	if(keystate[SDLK_TAB]) {
+		cb[0] = 1;
+		return 0;
+	}else if (cb[0]==1) {
+		cb[0] = 0;
+		return 0;
+	}
+	// default keys
 	switch (key->sym)
 	{
 	// S.A.
@@ -354,7 +440,6 @@ static int xlatekey (SDL_keysym *key)
 		return KEY_RSHIFT;
 
 	case SDLK_LCTRL:
-	case SDLK_RCTRL:
 		return KEY_RCTRL;
 
 	case SDLK_LALT:
