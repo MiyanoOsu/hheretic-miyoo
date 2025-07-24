@@ -2,6 +2,7 @@
 A port of Hheretic v0.2.4 from https://hhexen.sourceforge.net/hheretic.html for miyoo cfw
 
 # Keymap
+*NOTE: due to weapon have 7 slots, use combo keys to switch slot manual from 1 to 7, 
 ~~~
 Up : go ahead
 Down: step back
@@ -18,8 +19,8 @@ L + Left: move selection inventory to left
 L + RIGHT: move selection inventory to right
 L + Up: fly up
 L + Down: fly down
-R + Left: strafe left
-R + Right: strafe right
+R + Left: switch weapon slot down (default is slot 1)
+R + Right: switch weapon slot up (inscrease slot number)
 R + Up: look up
 R + Down: look down
 ~~~

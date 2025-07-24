@@ -332,21 +332,59 @@ static int xlatekey (SDL_keysym *key)
 		cb[3] = 0;
 		return KEY_RIGHTBRACKET;
 	}
-
-	// move left or right while head face other direction
+	static Uint8 weapon_slot = 1; 
+	// change weapon
 	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_LEFT]) {
 		cb[4] = 1;
-		return KEY_COMMA;
+		--weapon_slot;
+		if(weapon_slot == 0)
+			weapon_slot = 7;
+		switch(weapon_slot) {
+			case 1: return SDLK_1;
+			case 2:	return SDLK_2;
+			case 3:	return SDLK_3;
+			case 4:	return SDLK_4;
+			case 5:	return SDLK_5;
+			case 6:	return SDLK_6;
+			case 7:	return SDLK_7;
+		}
 	} else if (cb[4]==1) {
 		cb[4] = 0;
-		return KEY_COMMA;
+		switch(weapon_slot) {
+			case 1: return SDLK_1;
+			case 2:	return SDLK_2;
+			case 3:	return SDLK_3;
+			case 4:	return SDLK_4;
+			case 5:	return SDLK_5;
+			case 6:	return SDLK_6;
+			case 7:	return SDLK_7;
+		}
 	}
 	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_RIGHT]) {
 		cb[5] = 1;
-		return KEY_PERIOD;
+		++weapon_slot;
+		if(weapon_slot == 8)
+			weapon_slot = 1;
+		switch(weapon_slot) {
+			case 1: return SDLK_1;
+			case 2:	return SDLK_2;
+			case 3:	return SDLK_3;
+			case 4:	return SDLK_4;
+			case 5:	return SDLK_5;
+			case 6:	return SDLK_6;
+			case 7:	return SDLK_7;
+		}
 	} else if (cb[5]==1) {
 		cb[5] = 0;
-		return KEY_PERIOD;
+		switch(weapon_slot) {
+			case 1: return SDLK_1;
+			case 2:	return SDLK_2;
+			case 3:	return SDLK_3;
+			case 4:	return SDLK_4;
+			case 5:	return SDLK_5;
+			case 6:	return SDLK_6;
+			case 7:	return SDLK_7;
+		}
 	}
 
 	//look up or down
