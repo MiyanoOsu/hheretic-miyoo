@@ -22,7 +22,7 @@ R + Left: strafe left
 R + Right: strafe right
 R + Up: look up
 R + Down: look down
-~~ 
+~~~
 # How to build
 You need docker, debian linux or arch linux
 ~~~
