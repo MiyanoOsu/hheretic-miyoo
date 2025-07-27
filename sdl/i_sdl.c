@@ -306,34 +306,24 @@ static int xlatekey (SDL_keysym *key)
 {
 	Uint8* keystate = SDL_GetKeyState(NULL);
 	// combo keys
-	static Uint8 cb[9] = {0};
+	static Uint8 cb[8] = {0};
 	event_t event;
-
-	// open map
-	if(keystate[SDLK_RCTRL]) {
-		cb[1] = 1;
-		return KEY_TAB;
-	} else if (cb[1]==1) {
-		cb[1] = 0;
-		event.type = ev_keyup;
-		event.data1 = KEY_TAB;
-		D_PostEvent(&event);
-	}
 
 	// move selection in inventory
 	if(keystate[SDLK_TAB] && keystate[SDLK_LEFT]) {
-		cb[2] = 1;
+		cb[0] = 1;
 		return KEY_LEFTBRACKET;
-	}else if (cb[2]==1) {
-		cb[2] = 0;
+	}else if (cb[0]==1) {
+		cb[0] = 0;
 		event.type = ev_keyup;
 		event.data1 = KEY_LEFTBRACKET;
 		D_PostEvent(&event);
 	}
 	if(keystate[SDLK_TAB] && keystate[SDLK_RIGHT]) {
-		cb[3] = 1;
+		cb[1] = 1;
 		return KEY_RIGHTBRACKET;
-	}else if (cb[3]==1) {
+	}else if (cb[1]==1) {
+		cb[1] = 0;
 		event.type = ev_keyup;
 		event.data1 = KEY_RIGHTBRACKET;
 		D_PostEvent(&event);
@@ -341,7 +331,7 @@ static int xlatekey (SDL_keysym *key)
 	static Uint8 weapon_slot = 2;
 	// change weapon
 	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_LEFT]) {
-		cb[4] = 1;
+		cb[2] = 1;
 		--weapon_slot;
 		if(weapon_slot == 0)
 			weapon_slot = 7;
@@ -354,8 +344,8 @@ static int xlatekey (SDL_keysym *key)
 			case 6:	return SDLK_6;
 			case 7:	return SDLK_7;
 		}
-	} else if (cb[4]==1) {
-		cb[4] = 0;
+	} else if (cb[2]==1) {
+		cb[2] = 0;
 		event.type = ev_keyup;
 		switch(weapon_slot) {
 			case 1: event.data1 = SDLK_1;break;
@@ -369,7 +359,7 @@ static int xlatekey (SDL_keysym *key)
 		D_PostEvent(&event);
 	}
 	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_RIGHT]) {
-		cb[5] = 1;
+		cb[3] = 1;
 		++weapon_slot;
 		if(weapon_slot == 8)
 			weapon_slot = 1;
@@ -382,8 +372,8 @@ static int xlatekey (SDL_keysym *key)
 			case 6:	return SDLK_6;
 			case 7:	return SDLK_7;
 		}
-	} else if (cb[5]==1) {
-		cb[5] = 0;
+	} else if (cb[3]==1) {
+		cb[3] = 0;
 		event.type = ev_keyup;
 		switch(weapon_slot) {
 			case 1: event.data1 = SDLK_1;break;
@@ -399,19 +389,19 @@ static int xlatekey (SDL_keysym *key)
 
 	//look up or down
 	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_UP]) {
-		cb[6] = 1;
+		cb[4] = 1;
 		return KEY_PGDN;
-	} else if (cb[6]==1) {
-		cb[6] = 0;
+	} else if (cb[4]==1) {
+		cb[4] = 0;
 		event.type = ev_keyup;
 		event.data1 = KEY_PGDN;
 		D_PostEvent(&event);
 	}
 	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_DOWN]) {
-		cb[7] = 1;
+		cb[5] = 1;
 		return KEY_DEL;
-	} else if (cb[7]==1) {
-		cb[7] = 0;
+	} else if (cb[5]==1) {
+		cb[5] = 0;
 		event.type = ev_keyup;
 		event.data1 = KEY_DEL;
 		D_PostEvent(&event);
@@ -419,19 +409,19 @@ static int xlatekey (SDL_keysym *key)
 
 	// fly up or down
 	if(keystate[SDLK_TAB] && keystate[SDLK_UP]) {
-		cb[8] = 1;
+		cb[6] = 1;
 		return KEY_PGUP;
-	} else if (cb[8]==1) {
-		cb[8] = 0;
+	} else if (cb[6]==1) {
+		cb[6] = 0;
 		event.type = ev_keyup;
 		event.data1 = KEY_PGUP;
 		D_PostEvent(&event);
 	}
 	if(keystate[SDLK_TAB] && keystate[SDLK_DOWN]) {
-		cb[0] = 1;
+		cb[7] = 1;
 		return KEY_INS;
-	} else if (cb[0]==1) {
-		cb[0] = 0;
+	} else if (cb[7]==1) {
+		cb[7] = 0;
 		event.type = ev_keyup;
 		event.data1 = KEY_INS;
 		D_PostEvent(&event);
@@ -458,6 +448,7 @@ static int xlatekey (SDL_keysym *key)
 	case SDLK_UP:		return KEY_UPARROW;
 	case SDLK_ESCAPE:	return KEY_ESCAPE;
 	case SDLK_RETURN:	return KEY_ENTER;
+	case SDLK_RCTRL:	return KEY_TAB;
 
 	case SDLK_F1:		return KEY_F1;
 	case SDLK_F2:		return KEY_F2;
@@ -482,7 +473,7 @@ static int xlatekey (SDL_keysym *key)
 	case SDLK_PAUSE:	return KEY_PAUSE;
 	case SDLK_EQUALS:	return KEY_EQUALS;
 	case SDLK_MINUS:	return KEY_MINUS;
-	case SDLK_TAB:		return 0;
+	case SDLK_TAB:		return KEY_BACKSLASH;
 
 	case SDLK_LSHIFT:
 	case SDLK_RSHIFT:
