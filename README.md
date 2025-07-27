@@ -36,3 +36,15 @@ cd src
 ./configure --disable-gl --enable-fullscreen --host=arm-linux CC=arm-linux-gcc
 make -j $(nproc)
 ~~~
+
+# WAD file info:
+
+Shareware 1.0: 023b52175d2f260c3bdc5528df5d0a8c heretic1.wad (5,120,300 bytes)
+
+Shareware 1.2: ae779722390ec32fa37b0d361f7d82f8 heretic1.wad (5,120,920 bytes)
+
+Registered 1.0 (3 episodes): 3117e399cdb4298eaa3941625f4b2923 heretic.wad (11,096,488 bytes)
+
+Registered 1.2 (3 episodes): 1e4cb4ef075ad344dd63971637307e04 heretic.wad (11,095,516 bytes)
+
+Retail 1.3 (Shadow of the Serpent Riders, extended, 5 episodes): 66d686b1ed6d35ff103f15dbd30e0341 heretic.wad (14,189,976 bytes)
