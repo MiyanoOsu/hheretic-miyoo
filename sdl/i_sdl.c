@@ -306,15 +306,18 @@ static int xlatekey (SDL_keysym *key)
 {
 	Uint8* keystate = SDL_GetKeyState(NULL);
 	// combo keys
-	static Uint8 cb[10] = {0};
+	static Uint8 cb[9] = {0};
+	event_t event;
 
 	// open map
 	if(keystate[SDLK_RCTRL]) {
 		cb[1] = 1;
 		return KEY_TAB;
-	}else if (cb[1]==1) {
+	} else if (cb[1]==1) {
 		cb[1] = 0;
-		return KEY_TAB;
+		event.type = ev_keyup;
+		event.data1 = KEY_TAB;
+		D_PostEvent(&event);
 	}
 
 	// move selection in inventory
@@ -323,16 +326,19 @@ static int xlatekey (SDL_keysym *key)
 		return KEY_LEFTBRACKET;
 	}else if (cb[2]==1) {
 		cb[2] = 0;
-		return KEY_LEFTBRACKET;
+		event.type = ev_keyup;
+		event.data1 = KEY_LEFTBRACKET;
+		D_PostEvent(&event);
 	}
 	if(keystate[SDLK_TAB] && keystate[SDLK_RIGHT]) {
 		cb[3] = 1;
 		return KEY_RIGHTBRACKET;
 	}else if (cb[3]==1) {
-		cb[3] = 0;
-		return KEY_RIGHTBRACKET;
+		event.type = ev_keyup;
+		event.data1 = KEY_RIGHTBRACKET;
+		D_PostEvent(&event);
 	}
-	static Uint8 weapon_slot = 2; 
+	static Uint8 weapon_slot = 2;
 	// change weapon
 	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_LEFT]) {
 		cb[4] = 1;
@@ -350,15 +356,17 @@ static int xlatekey (SDL_keysym *key)
 		}
 	} else if (cb[4]==1) {
 		cb[4] = 0;
+		event.type = ev_keyup;
 		switch(weapon_slot) {
-			case 1: return SDLK_1;
-			case 2:	return SDLK_2;
-			case 3:	return SDLK_3;
-			case 4:	return SDLK_4;
-			case 5:	return SDLK_5;
-			case 6:	return SDLK_6;
-			case 7:	return SDLK_7;
+			case 1: event.data1 = SDLK_1;break;
+			case 2:	event.data1 = SDLK_2;break;
+			case 3:	event.data1 = SDLK_3;break;
+			case 4: event.data1 = SDLK_4;break;
+			case 5:	event.data1 = SDLK_5;break;
+			case 6:	event.data1 = SDLK_6;break;
+			case 7:	event.data1 = SDLK_7;break;
 		}
+		D_PostEvent(&event);
 	}
 	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_RIGHT]) {
 		cb[5] = 1;
@@ -376,15 +384,17 @@ static int xlatekey (SDL_keysym *key)
 		}
 	} else if (cb[5]==1) {
 		cb[5] = 0;
+		event.type = ev_keyup;
 		switch(weapon_slot) {
-			case 1: return SDLK_1;
-			case 2:	return SDLK_2;
-			case 3:	return SDLK_3;
-			case 4:	return SDLK_4;
-			case 5:	return SDLK_5;
-			case 6:	return SDLK_6;
-			case 7:	return SDLK_7;
+			case 1: event.data1 = SDLK_1;break;
+			case 2:	event.data1 = SDLK_2;break;
+			case 3:	event.data1 = SDLK_3;break;
+			case 4: event.data1 = SDLK_4;break;
+			case 5:	event.data1 = SDLK_5;break;
+			case 6:	event.data1 = SDLK_6;break;
+			case 7:	event.data1 = SDLK_7;break;
 		}
+		D_PostEvent(&event);
 	}
 
 	//look up or down
@@ -393,14 +403,18 @@ static int xlatekey (SDL_keysym *key)
 		return KEY_PGDN;
 	} else if (cb[6]==1) {
 		cb[6] = 0;
-		return KEY_PGDN;
+		event.type = ev_keyup;
+		event.data1 = KEY_PGDN;
+		D_PostEvent(&event);
 	}
 	if(keystate[SDLK_BACKSPACE] && keystate[SDLK_DOWN]) {
 		cb[7] = 1;
 		return KEY_DEL;
 	} else if (cb[7]==1) {
 		cb[7] = 0;
-		return KEY_DEL;
+		event.type = ev_keyup;
+		event.data1 = KEY_DEL;
+		D_PostEvent(&event);
 	}
 
 	// fly up or down
@@ -409,24 +423,20 @@ static int xlatekey (SDL_keysym *key)
 		return KEY_PGUP;
 	} else if (cb[8]==1) {
 		cb[8] = 0;
-		return KEY_PGUP;
+		event.type = ev_keyup;
+		event.data1 = KEY_PGUP;
+		D_PostEvent(&event);
 	}
 	if(keystate[SDLK_TAB] && keystate[SDLK_DOWN]) {
-		cb[9] = 1;
+		cb[0] = 1;
 		return KEY_INS;
-	} else if (cb[9]==1) {
-		cb[9] = 0;
-		return KEY_INS;
+	} else if (cb[0]==1) {
+		cb[0] = 0;
+		event.type = ev_keyup;
+		event.data1 = KEY_INS;
+		D_PostEvent(&event);
 	}
 
-	// unmap TAB
-	if(keystate[SDLK_TAB]) {
-		cb[0] = 1;
-		return 0;
-	}else if (cb[0]==1) {
-		cb[0] = 0;
-		return 0;
-	}
 	// default keys
 	switch (key->sym)
 	{
@@ -472,6 +482,7 @@ static int xlatekey (SDL_keysym *key)
 	case SDLK_PAUSE:	return KEY_PAUSE;
 	case SDLK_EQUALS:	return KEY_EQUALS;
 	case SDLK_MINUS:	return KEY_MINUS;
+	case SDLK_TAB:		return 0;
 
 	case SDLK_LSHIFT:
 	case SDLK_RSHIFT:
