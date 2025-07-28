@@ -149,18 +149,18 @@ static void CopyRectToScreen(int x, int y, int w, int h)
 
 void upscale320x200to320x240(SDL_Surface* src, SDL_Surface* dst)
 {
-    SDL_Color* pal = src->format->palette->colors;
-    uint8_t* spix = (uint8_t*)src->pixels;
-    uint16_t* dpix = (uint16_t*)dst->pixels;
+	SDL_Color* pal = src->format->palette->colors;
+	uint8_t* spix = (uint8_t*)src->pixels;
+	uint16_t* dpix = (uint16_t*)dst->pixels;
 
-    for (int y = 0; y < 240; y++) {
-        int src_y = (y * 200) / 240;
-        for (int x = 0; x < 320; x++) {
-            SDL_Color c = pal[spix[src_y * src->pitch + x]];
-            uint16_t rgb565 = ((c.r >> 3) << 11) | ((c.g >> 2) << 5) | (c.b >> 3);
-            dpix[y * (dst->pitch / 2) + x] = rgb565;
-        }
-    }
+	for (int y = 0; y < 240; y++) {
+		int src_y = (y * 200) / 240;
+		for (int x = 0; x < 320; x++) {
+			SDL_Color c = pal[spix[src_y * src->pitch + x]];
+			uint16_t rgb565 = ((c.r >> 3) << 11) | ((c.g >> 2) << 5) | (c.b >> 3);
+			dpix[y * (dst->pitch / 2) + x] = rgb565;
+		}
+	}
 }
 
 void I_Update (void)
@@ -277,7 +277,7 @@ void I_InitGraphics(void)
 	if (M_CheckParm("-w") || M_CheckParm("--windowed"))
 		flags &= ~SDL_FULLSCREEN;
 
-	sdl_screen = SDL_SetVideoMode(SCREENWIDTH, 240, 16, flags);
+	sdl_screen = SDL_SetVideoMode(320, 240, 16, flags);
 
 	if (sdl_screen == NULL)
 	{
