@@ -28,14 +28,20 @@ R + Down: look down
 You need docker, debian linux or arch linux
 ~~~
 # if you first time build code, run this command to set up toolchain
-docker pull miyoocfw/toolchain-shared-uclibc:latest
+docker pull miyoocfw/toolchain-static-musl:latest
 
 # to compile
-docker run --volume ./:/src/ -it miyoocfw/toolchain-shared-uclibc:latest
+docker run --volume ./:/src/ -it miyoocfw/toolchain-static-musl:latest
 cd src
+
 ./autogen.sh
 ./configure --disable-gl --enable-fullscreen --host=arm-linux CC=arm-linux-gcc --with-audio=sdlmixer
+
+# build game in fullscreen mode type
 make -j $(nproc)
+
+# build game in original screen size 320x200 type
+make CFLAGS="-DORG_SCREEN" -j$(nproc)
 ~~~
 
 # WAD file info:
@@ -53,4 +59,4 @@ Retail 1.3 (Shadow of the Serpent Riders, extended, 5 episodes): 66d686b1ed6d35f
 # Soundtracks:
 
 When configured `--with-audio=sdlmixer` it adds the ability of midi music playback from a WAD file or custom music tracks in an order OGG, MP3, MID (with midi it will look for timidity.cfg file), 
-place these music tracks in `$HOME/.hheretic/music` directory.
+place these music tracks in `$HOME/.hheretic/music` directory. `$HOME` is /mnt in miyooCFW.
